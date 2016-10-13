@@ -1,0 +1,44 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+function changeIssues(value, issue_dict){
+    val=value.split(',')[1];
+    $('#issues_id').empty('');
+    for (var key in issue_dict){
+        if(key==val){
+            set_value = issue_dict[key];
+            for (var i in issue_dict[key]){
+                $('#issues_id').append( $('<option></option>').val(issue_dict[key][i]).html(issue_dict[key][i]))
+            }
+        }
+   }
+}
+</script>
+<form action="/jira/createbug/" method="post">
+    {% csrf_token %}
+     load all data and for create new Task/Bug/Epic etc
+    <br>
+    <br>
+
+     Projects:
+     <select id='project_id' name="project_name" onchange="changeIssues(this.value, {{issues}});">
+        {% for key,value in projects.items %}
+                   <option value="{{key}},{{value}}">{{value}}</option>
+               {% endfor %}
+     </select><br><br>
+     Issue:
+     <select id ="issues_id" name="issue_type">
+         {% for key, value in issues.items %}
+                {% for val in value %}
+                    <option value="{{ val }}">{{val}}</option>
+                {% endfor %}
+        {% endfor %}
+     </select><br><br>
+
+    Assignee -
+     <select id="assignee" name="assignee">
+         {% for user in assignee %} <option value="{{ user.id }}">{{user}}</option> {% endfor %}<br>
+     </select><br><br>
+    Summery: <input type="text" name="summery" required> <br> <br>
+    Description: <input type="text" name="description" required> <br> <br>
+    <input type="submit" value="create on jira">
+</form>

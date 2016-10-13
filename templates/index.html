@@ -1,0 +1,16 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>jira login</title>
+    </head>
+
+    <body>
+        <b>Try to login in Jira</b>
+        <form action="jira/jira-login/" method="post">
+            {% csrf_token %}
+            Email : <input type="text" name="username" id="username"> </br>
+            Password :<input type="password" name="password" id="password"> <br>
+            <input type="submit" value="login">
+        </form>
+    </body>
+</html>
